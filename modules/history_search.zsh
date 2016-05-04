@@ -17,7 +17,7 @@ bindkey "^[[1;5A"   enter-history-search                            # Ctrl + Up
 enter-history-search ()
 {
 	zle push-input
-	local string words char key esc pos
+	local string word words char key esc pos
 	local -i restore direction from m num restore_c
 	direction=-1
 	restore=$HISTNO
