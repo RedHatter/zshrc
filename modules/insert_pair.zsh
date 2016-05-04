@@ -1,4 +1,9 @@
-#!/bin/zsh
+##
+#
+#   insert-pair
+#     Insert the matching brace, parentheses, quote, etc.
+#
+##
 
 # Wrapping character keybinds
 bindkey "{" insert-pair

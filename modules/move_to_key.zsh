@@ -1,6 +1,14 @@
-#!/bin/zsh
+##
+#   Move to Key
+#     Arrow+Key moves to the key (like vi-find-next-char). Could not use
+#     vi-find-next-char as it does not support specifying as a parameter
+#     what key to goto.
+#
+##
 
-# Keybinds to move to symbol. e.g. <Left>+1 to move to previous 1 or !. Could not use vi-find-prev-char as it reads input from user
+# Keybinds to move to symbol. e.g. <Left>+1 to move to previous 1 or !. Could
+# not use vi-find-prev-char as it reads input from user
+
 typeset -A unshifted # Map ascii characters to their respective keyboard keys
 unshifted=(' ' ' ' '!' '1' '"' "'" '#' '3' '$' '4' '%' '5' '&' '7' "'" "'" '(' '9' ')' '0' '*' '8' '+' '=' ',' ',' '-' '-' '.' '.' '/' '/' '0' '0' '1' '1' '2' '2' '3' '3' '4' '4' '5' '5' '6' '6' '7' '7' '8' '8' '9' '9' ':' ';' ';' ';' '<' ',' '=' '=' '>' '.' '?' '/' '@' '2' 'A' 'a' 'B' 'b' 'C' 'c' 'D' 'd' 'E' 'e' 'F' 'f' 'G' 'g' 'H' 'h' 'I' 'i' 'J' 'j' 'K' 'k' 'L' 'l' 'M' 'm' 'n' 'N' 'O' 'o' 'P' 'p' 'Q' 'q' 'R' 'r' 'S' 's' 'T' 't' 'U' 'u' 'V' 'v' 'W' 'w' 'X' 'x' 'Y' 'y' 'Z' 'z' '[' '[' '\' '\' ']' ']' '^' '6' '_' '-' '`' '`' 'a' 'a' 'b' 'b' 'c' 'c' 'd' 'd' 'e' 'e' 'f' 'f' 'g' 'g' 'h' 'h' 'i' 'i' 'j' 'j' 'k' 'k' 'l' 'l' 'm' 'm' 'n' 'n' 'o' 'o' 'p' 'p' 'q' 'q' 'r' 'r' 's' 's' 't' 't' 'u' 'u' 'v' 'v' 'w' 'w' 'x' 'x' 'y' 'y' 'z' 'z' '{' '[' '|' '\' '}' ']' '~' '`')
 

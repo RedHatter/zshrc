@@ -15,10 +15,10 @@ readkey ()
 			REPLY=$keycodes[$key]
 			;;
 		127)
-			REPLY=$keycodes["^?"]
+			REPLY=$keycodes[^?]
 			;;
 		9)
-			REPLY=$keycodes["^I"]
+			REPLY=$keycodes[^I]
 			;;
 		13)
 			REPLY="ENTER"

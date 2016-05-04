@@ -1,4 +1,11 @@
-#!/bin/zsh
+##
+#
+#   Insert History word
+#     Extended keybinds for insert-last-word. Shift+Up calls insert-last-word
+#     and displays the current history line in POSTDISPLAY, Shift+Left and
+#     +Right will then select the corresponding words on the line.
+#
+##
 
 # Insert history word keybinds
 bindkey "^[[1;2A"   insert-last-word                                # Shift+ Up     - select last word of previous history line

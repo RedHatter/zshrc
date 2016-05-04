@@ -1,9 +1,19 @@
-#!/bin/zsh
+##
+#   enter-history-search
+#     An extended incremental history search. Searches for a line that contains
+#     all words. A '!' (can be escaped '\!') in front of a word to search for a
+#     line that does not contain that word. Use tab to insert a word instead of
+#     selecting the history line.
+#
+#  Note: there has got to be a better way to do key bindings!
+#
+##
 
 # Incremental search keybinds
 bindkey "^[[1;5A"   enter-history-search                            # Ctrl + Up
 
-# Search through history for line that contains all words, case-insensitive if no upper case letters are in word.
+# Search through history for line that contains all words, case-insensitive if
+# no upper case letters are in word.
 enter-history-search ()
 {
 	zle push-input

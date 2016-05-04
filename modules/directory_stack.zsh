@@ -1,4 +1,9 @@
-#!/bin/zsh
+##
+#
+#   spin-directory
+#     Loop through directory stack.
+#
+##
 
 zmodload zsh/mapfile
 dirstack=( "${(f)mapfile[$DIRSTACKFILE]}" )
@@ -10,6 +15,7 @@ update ()
 	local tempstack
 	for dir in $dirstack; do
 		[[ $dir == ${(q)PWD}* ]] && return
+		[ ! -d "$DIRECTORY" ] && continue
 		(( ${#tempstack} >= DIRSTACKSIZE-1 )) && continue
 		[[ ${(q)PWD} != $dir* ]] && tempstack=( $dir $tempstack )
 	done
@@ -35,7 +41,7 @@ spin-directory ()
 	spin_len=${#dirstack[$spin_pos]}
 
 	# At last, loop to first
-	if ((spin_pos == ${#dirstack}-1)); then
+	if ((spin_pos == ${#dirstack})); then
 		spin_pos=1
 	else
 		spin_pos+=1
@@ -59,7 +65,7 @@ spin-directory-back ()
 
 	# At first, loop to last
 	if [[ $spin_pos == 1 ]]; then
-		((spin_pos=${#dirstack}-1))
+		((spin_pos=${#dirstack}))
 	else
 		spin_pos+=-1
 	fi

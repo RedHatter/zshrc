@@ -57,13 +57,13 @@
 
 echo  -e "Hold \e[96m<Left>\e[0m or \e[96m<Right>\e[0m and press a key to move to the indicated character.
 Press \e[96m<Ctrl><Up>\e[0m to start advanced history search.
-Press \e[96m<Shift><Up>\e[0m to insert a word from history
-Press \e[96m<Alt><Down>\e[0m to predict next command based on history.
+Press \e[96m<Shift><Up>\e[0m to insert a word from history.
 Press \e[96m<Crtl><Down>\e[0m to push input to next command prompt.
 Press \e[96m<Ctrl><Left>\e[0m or \e[96m<Right>\e[0m to move backward or forward a word, respectively.
 Press \3[96m<Ctrl><Delete>\e[0m to delete a word.
 Press \e[96m<ESC>\e[0m to clear entire line.
 Type \e[96m\\\\\\\\\e[0m to start a new line.
+Press \e[96m<Ctrl>h\e[0m to display man pages for current command.
 Press \e[96m<Ctrl>\`\e[0m and \e[96m<Ctrl><Shift>\`\e[0m to cycle through directories on stack.
 \e[96mdirs\e[0m will display directory stack.
 \e[96m~n\e[0m will changed to the nth directory in the stack, \e[96m-\e[0m is equivalent to \e[96m~1\e[0m"
@@ -81,7 +81,7 @@ accept_line_functions=( )
 { source /etc/zsh/modules/insert_pair.zsh }
 { source /etc/zsh/modules/directory_stack.zsh }
 { source /etc/zsh/modules/history_search.zsh }
-{ source /etc/zsh/modules/move_to_key.zsh }
+# { source /etc/zsh/modules/move_to_key.zsh } causes cursor to stick
 { source /etc/zsh/modules/notify.zsh }
 { source /etc/zsh/modules/help.zsh }
 
@@ -99,9 +99,9 @@ bindkey "^["        kill-whole-line                                 # Esc       
 bindkey "^[[1;5D"   backward-word                                   # Ctrl + Left   - move backward a word
 bindkey "^[[1;5C"   forward-word                                    # Ctrl + Right  - move forward a word
 bindkey "^[[1;5B"   push-input                                      # Crtl + Down   - push input to next command prompt
-# bindkey "^[[1;3B"   infer-next-history                              # Alt  + Down   - try to predict what you are going to do by looking a history
+bindkey "^[[1;3B"   infer-next-history                              # Alt  + Down   - try to predict what you are going to do by looking a history
 bindkey "^[[3;5~"   kill-word                                       # Ctrl + Delete - cut word
-bindkey "[6~"       end-of-history                                  # Page Down     - Go to the last history eventS
+bindkey "[6~"       end-of-history                                  # Page Down     - Go to the last history event
 bindkey '\\\\'      vi-open-line-below                              # \\            - new line
 
 view-history ()
@@ -115,17 +115,9 @@ view-history ()
 	BUFFER=$REPLY
 }
 zle -N view-history
-bindkey "^e" view-history
+bindkey "^h" view-history
 
 { source /etc/zsh/modules/auto_fu.zsh }
-
-find-dir ()
-{
-	RBUFFER=$(cat ~/.zsh.log|grep (.*/.*)+)$RBUFFER
-}
-
-zle -N find-dir
-bindkey "^[[1;3B" find-dir
 
 # Run last command as root
 accept-line ()
@@ -216,8 +208,6 @@ setopt HIST_IGNORE_ALL_DUPS         # Delete duplicate commands
 setopt HIST_REDUCE_BLANKS           # Collapse whitespace
 setopt HIST_IGNORE_SPACE            # Commands that start with a space will not be add to history
 
-setopt PUSHD_IGNORE_DUPS            # Delete duplicate entries
-
 # Setup git info styles for prompt
 autoload -Uz vcs_info
 
@@ -249,13 +239,13 @@ zstyle ':vcs_info:*' formats '%F{mag}(%F{red}%m%F{white}%b%B%u%c%%b%F{mag})%f '
 
 # Set up prompt
 setopt prompt_subst     # Allow variable expansion in prompt strings
-# Left prompt: Red if root, white on red if previous command failed, + if in sub-shell >
-PS1='%(!.%F{red}.%F{blue})%(?..%K{red}%F{white}!)%(2L.+.)> %k%f'
+# Left prompt: Red if root, + if in sub-shell, print exit status, >
+PS1='%(!.%F{red}.%F{blue})%(2L.+.)> %(?..(%?%) )%k%f'
 # Right prompt: git info, current dir green when writable yellow otherwise, red if root, time Ding! on hour
 RPS1='${vcs_info_msg_0_}${pwd_color}%~ %(!.%F{red}.%F{blue})%(t.Ding!.%D{%L.%M.%S}) %k%f'
 
-#This was written entirely by Mikael Magnusson (Mikachu)
-#Type '...' to get '../..' with successive .'s adding /..
+# This was written entirely by Mikael Magnusson (Mikachu)
+# Type '...' to get '../..' with successive .'s adding /..
 rationalise-dot ()
 {
 	local MATCH
